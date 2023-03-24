@@ -1,6 +1,6 @@
  #include "Solver.h"
 
-trajectory Solver::calculate(double angle, double bVel)
+trajectory Solver::calculate(double angle, double barrel_velocity)
 {
     double time = 0;
     physVector velocity(0,0);
@@ -40,6 +40,8 @@ trajectory Solver::calculate(double angle, double bVel)
     }
     return history;
 }
+// Брутфорс расчет траекторий
+// TODO: Переписать с нуля быстрой сортировкой
 void Solver::calculateTrajectories(double dis)
 {
     trajectories.clear();
@@ -71,6 +73,8 @@ void Solver::calculateTrajectories(double dis)
     std::sort(trajectories.begin(), trajectories.end(), [](const trajectory& t1, const trajectory& t2) -> bool
     { return t1.arrival_time < t2.arrival_time; }); // Сортировка траекторий по времени полета снаряда
     double last_arrival_time = 0;
+
+    // Отбор траекторий с разницей во времени более 5 секунд
     for (int i = 0; i<trajectories.size(); i++)
     {
         if (trajectories[i].arrival_time - last_arrival_time > 5)
@@ -79,5 +83,4 @@ void Solver::calculateTrajectories(double dis)
             last_arrival_time = trajectories[i].arrival_time;
         }
     }
-
 }

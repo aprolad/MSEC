@@ -18,11 +18,11 @@ struct physVector
         x = x; y = y; t = 0;
     }
     double x, y, t;
-    double angle()
+    double angle() // Угол от оси x
     {
        return acos(x/this->mod());
     }
-    double mod()
+    double mod() // Модуль длины вектора
     {
         return sqrt(pow(x, 2) + pow(y, 2));
     }
