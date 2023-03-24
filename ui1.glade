@@ -12,13 +12,14 @@
         <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkComboBoxText" id="list">
+          <object class="GtkComboBoxText" id="combobox">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <items>
-              <item translatable="yes">82 мм 2Б14-1 О-832 ДУ</item>
-              <item translatable="yes">120</item>
+              <item id="0" translatable="yes">82 мм 2Б14-1 О-832ДУ</item>
+              <item id="1" translatable="yes">120 мм ОФ-843А</item>
             </items>
+            <signal name="changed" handler="on_combobox_changed" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -42,9 +43,11 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="2">
+              <object class="GtkLabel">
                 <property name="visible">True</property>
-                <property name="can-focus">True</property>
+                <property name="can-focus">False</property>
+                <property name="margin-start">10</property>
+                <property name="label" translatable="yes">Масса снаряда: </property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -53,14 +56,42 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="3">
+              <object class="GtkLabel" id="mass">
                 <property name="visible">True</property>
-                <property name="can-focus">True</property>
+                <property name="can-focus">False</property>
+                <property name="margin-start">2</property>
+                <property name="label" translatable="yes">0</property>
               </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="angle4">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="margin-start">10</property>
+                <property name="label" translatable="yes">Диапозон скоростей снаряда:</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="velocity">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="margin-start">2</property>
+                <property name="label" translatable="yes">0</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">4</property>
               </packing>
             </child>
           </object>
@@ -91,8 +122,8 @@
             <property name="can-focus">False</property>
             <child>
               <object class="GtkDrawingArea" id="draw">
-                <property name="width-request">200</property>
-                <property name="height-request">200</property>
+                <property name="width-request">1000</property>
+                <property name="height-request">800</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <signal name="draw" handler="on_draw_draw" swapped="no"/>
@@ -113,7 +144,7 @@
                   <object class="GtkLabel" id="angle">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">Угол возвышения</property>
+                    <property name="label" translatable="yes">Угол возвышения </property>
                   </object>
                   <packing>
                     <property name="left-attach">0</property>
@@ -124,7 +155,7 @@
                   <object class="GtkLabel" id="angle1">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">Время подлета</property>
+                    <property name="label" translatable="yes">Время подлета </property>
                   </object>
                   <packing>
                     <property name="left-attach">1</property>
@@ -135,7 +166,7 @@
                   <object class="GtkLabel" id="angle2">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">Угол возвышения:</property>
+                    <property name="label" translatable="yes">Заряд </property>
                   </object>
                   <packing>
                     <property name="left-attach">2</property>
@@ -143,7 +174,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkTextView" id="a1">
+                  <object class="GtkTextView" id="a0">
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                   </object>
@@ -153,7 +184,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkTextView" id="t1">
+                  <object class="GtkTextView" id="t0">
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                   </object>
@@ -163,7 +194,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkTextView">
+                  <object class="GtkTextView" id="c3">
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                   </object>
@@ -173,7 +204,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkTextView">
+                  <object class="GtkTextView" id="c2">
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                   </object>
@@ -183,7 +214,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkTextView">
+                  <object class="GtkTextView" id="c0">
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                   </object>
@@ -193,12 +224,32 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkTextView">
+                  <object class="GtkTextView" id="c1">
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                   </object>
                   <packing>
                     <property name="left-attach">2</property>
+                    <property name="top-attach">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkTextView" id="t2">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="left-attach">1</property>
+                    <property name="top-attach">3</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkTextView" id="a1">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="left-attach">0</property>
                     <property name="top-attach">2</property>
                   </packing>
                 </child>
@@ -209,36 +260,6 @@
                   </object>
                   <packing>
                     <property name="left-attach">1</property>
-                    <property name="top-attach">3</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkTextView" id="a2">
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                  </object>
-                  <packing>
-                    <property name="left-attach">0</property>
-                    <property name="top-attach">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkTextView" id="t4">
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                  </object>
-                  <packing>
-                    <property name="left-attach">1</property>
-                    <property name="top-attach">4</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkTextView" id="a4">
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                  </object>
-                  <packing>
-                    <property name="left-attach">0</property>
                     <property name="top-attach">4</property>
                   </packing>
                 </child>
@@ -249,11 +270,21 @@
                   </object>
                   <packing>
                     <property name="left-attach">0</property>
+                    <property name="top-attach">4</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkTextView" id="a2">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="left-attach">0</property>
                     <property name="top-attach">3</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkTextView" id="a5">
+                  <object class="GtkTextView" id="a4">
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                   </object>
@@ -263,7 +294,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkTextView">
+                  <object class="GtkTextView" id="c4">
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                   </object>
@@ -273,7 +304,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkTextView" id="t5">
+                  <object class="GtkTextView" id="t4">
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                   </object>
@@ -283,7 +314,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkTextView" id="t2">
+                  <object class="GtkTextView" id="t1">
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                   </object>

@@ -2,6 +2,7 @@
 #define SOLVER
 
 #include "Header.h"
+
 struct shell
 {
     double barrel_velocity;
@@ -14,9 +15,9 @@ struct physVector
 {
     physVector(double x = 0, double y = 0)
     {
-        x = 0; y = 0; t = 0; mv = 0;
+        x = x; y = y; t = 0;
     }
-    double x, y, t, mv;
+    double x, y, t;
     double angle()
     {
        return acos(x/this->mod());
@@ -33,6 +34,12 @@ struct physVector
     {
         return physVector{x * op, y * op};
     }
+    physVector operator = (const physVector& op)
+    {
+        x = op.x;
+        y = op.y;
+        return *this;
+    }
 };
 
 struct trajectory
@@ -48,47 +55,7 @@ class Solver
         static inline std::vector<trajectory> trajectories;
         static inline std::vector<trajectory> eligible_timeframe;
         static inline shell shell;
-        static void calculateTrajectories(double dis)
-        {
-            trajectories.clear();
-            eligible_timeframe.clear();
-            trajectory t;
-            double det = 0.01;
-            for (int c = 0; c<4; c++)
-            {
-                for (double i = 0; i<45; i+= det)
-                {
-                 t = calculate(i, shell.charges[c]);
-                 if (t.points.back().x > dis)
-                    {
-                    trajectories.push_back(t);
-                    break;
-                    }
-                }
-                 for (double i = 90; i>45; i-=det)
-                {
-                    t = calculate(i, shell.charges[c]);
-                 if (t.points.back().x > dis)
-                    {
-                    trajectories.push_back(t);
-                    break;
-                    }
-                }
-            }
-         //  sort(arrivalTimes.begin(), arrivalTimes.end());
-           std::sort(trajectories.begin(), trajectories.end(), [](const trajectory& t1, const trajectory& t2) -> bool
-    { return t1.arrival_time < t2.arrival_time; });
-    double last_arrival_time = 0;
-    for (int i = 0; i<trajectories.size(); i++)
-    {
-        if (trajectories[i].arrival_time - last_arrival_time > 5)
-        {
-            eligible_timeframe.push_back(trajectories[i]);
-            last_arrival_time = trajectories[i].arrival_time;
-        }
-    }
-
-        }
+        static void calculateTrajectories(double dis);
     private:
         Solver(){}
         trajectory static calculate(double angle, double bVel);
