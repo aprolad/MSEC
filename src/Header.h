@@ -1,0 +1,11 @@
+#include <gtk/gtk.h>
+#include <string>
+#include <vector>
+#include <cmath>
+#include <algorithm>
+#include <numeric>
+#include <numbers>
+#include <iostream>
+#include <cstdlib>
+#include <sstream>
+#include <iomanip>
