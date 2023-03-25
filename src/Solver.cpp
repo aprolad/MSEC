@@ -5,13 +5,13 @@ trajectory Solver::calculate(double angle, double barrel_velocity)
     double time = 0;
     physVector velocity(0,0);
     physVector position(0,0);
-    velocity.x = bVel * cos((angle) *(M_PI / 180)); // Разложение начальной скорости на вектора
-    velocity.y = bVel * cos((90 - angle) *(M_PI / 180));
+    velocity.x = barrel_velocity * cos((angle) *(M_PI / 180)); // Разложение начальной скорости на вектора
+    velocity.y = barrel_velocity * cos((90 - angle) *(M_PI / 180));
     double g = 9.81;
     double timestep = 0.1;
     trajectory history;
     history.angle = angle;
-    history.charge = bVel;
+    history.charge = barrel_velocity;
     history.points.push_back(physVector(0,0));
     double p = 1.1; // Плотность воздуха TODO:Реализовать зависимость плотность воздуха от высоты
     double a;
@@ -42,6 +42,7 @@ trajectory Solver::calculate(double angle, double barrel_velocity)
 }
 // Брутфорс расчет траекторий
 // TODO: Переписать с нуля быстрой сортировкой
+
 void Solver::calculateTrajectories(double dis)
 {
     trajectories.clear();

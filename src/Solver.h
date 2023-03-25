@@ -5,7 +5,6 @@
 
 struct shell
 {
-    double barrel_velocity;
     std::vector<double> charges;
     double calibre;
     double mass;

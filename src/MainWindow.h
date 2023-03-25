@@ -1,3 +1,6 @@
+#ifndef MAINWINDOW
+#define MAINWINDOW
+
 #include "Header.h"
 #include "Solver.h"
 class MainWindow
@@ -9,17 +12,17 @@ class MainWindow
         static inline GtkWidget* window;
         static inline GtkBuilder* builder;
         static inline GtkWidget* distance_entry;
-        static inline GtkWidget* textView;
-        static inline GtkWidget* timeTextViews[5];
-        static inline GtkTextBuffer *buffers[5];
-        static inline GtkWidget* angleTextViews[5];
-        static inline GtkTextBuffer *angleTextBuffers[5];
-        static inline GtkWidget* chargeTextViews[5];
-        static inline GtkTextBuffer *chargeTextBuffers[5];
+        static inline GtkWidget* text_view;
+        static inline GtkWidget* time_text_views[5];
+        static inline GtkTextBuffer* time_text_buffers[5];
+        static inline GtkWidget* angle_text_views[5];
+        static inline GtkTextBuffer *angle_text_buffers[5];
+        static inline GtkWidget* charge_text_views[5];
+        static inline GtkTextBuffer *charge_text_buffers[5];
         static inline GtkWidget *combobox;
         static inline GtkWidget* button;
-        static inline GtkLabel *massLabel;
-        static inline GtkLabel *velocityLabel;
+        static inline GtkLabel *mass_label;
+        static inline GtkLabel *velocity_label;
 
         static inline int selected_combobox;
         static inline shell shells[2];
@@ -40,3 +43,5 @@ class MainWindow
 
         static gboolean on_draw(GtkWidget* widget, cairo_t* cr, gpointer data); // Рисование
 };
+
+#endif

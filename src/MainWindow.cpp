@@ -7,9 +7,9 @@ void MainWindow::on_combobox_changed(GtkComboBoxText *combobox, gpointer user_da
 
     std::ostringstream oss, vss; // TODO: Написать обертку для stringstream
     oss << std::setprecision(5) << Solver::shell.mass;
-    gtk_label_set_text(massLabel, oss.str().c_str());
+    gtk_label_set_text(mass_label, oss.str().c_str());
     vss <<std::setprecision(5) << Solver::shell.charges[0]<<" ~ "<< Solver::shell.charges.back();
-    gtk_label_set_text(velocityLabel, vss.str().c_str());
+    gtk_label_set_text(velocity_label, vss.str().c_str());
 }
 
 gboolean MainWindow::on_draw(GtkWidget* widget, cairo_t* cr, gpointer data)
@@ -39,7 +39,7 @@ gboolean MainWindow::on_draw(GtkWidget* widget, cairo_t* cr, gpointer data)
     cairo_scale(cr, 1.0, -1.0);
     cairo_translate(cr, -min_x * x_scale, -min_y * y_scale);
 
-    // Рисование графика полета
+    // Отрисовка графика полета
     for (int c = 0; c < Solver::trajectories.size(); c++)
     {
         cairo_move_to(cr, Solver::trajectories[c].points[0].x * x_scale + 30, Solver::trajectories[c].points[0].y * y_scale + 40);
@@ -62,9 +62,9 @@ void MainWindow::on_button_clicked(GtkButton* button, gpointer data)
     // Вывод характеристик траекторий в правую таблицу
     for (int i = 0; i<Solver::eligible_timeframe.size(); i++)
     {
-        gtk_text_buffer_set_text(MainWindow::buffers[i], std::to_string(Solver::eligible_timeframe[i].arrival_time).c_str(), -1);
-        gtk_text_buffer_set_text(MainWindow::angleTextBuffers[i], std::to_string(Solver::eligible_timeframe[i].angle).c_str(), -1);
-        gtk_text_buffer_set_text(MainWindow::chargeTextBuffers[i], std::to_string(int(Solver::eligible_timeframe[i].charge)).c_str(), -1);
+        gtk_text_buffer_set_text(MainWindow::time_text_buffers[i], std::to_string(Solver::eligible_timeframe[i].arrival_time).c_str(), -1);
+        gtk_text_buffer_set_text(MainWindow::angle_text_buffers[i], std::to_string(Solver::eligible_timeframe[i].angle).c_str(), -1);
+        gtk_text_buffer_set_text(MainWindow::charge_text_buffers[i], std::to_string(int(Solver::eligible_timeframe[i].charge)).c_str(), -1);
     }
     GtkWidget* drawing_area = GTK_WIDGET(gtk_builder_get_object(MainWindow::builder, "draw"));
     gtk_widget_queue_draw(drawing_area);
@@ -74,21 +74,21 @@ void MainWindow::gtk_binding()
 {
     window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
     distance_entry = GTK_WIDGET(gtk_builder_get_object(builder, "1"));
-    massLabel = GTK_LABEL(gtk_builder_get_object(builder, "mass"));
-    velocityLabel = GTK_LABEL(gtk_builder_get_object(builder, "velocity"));
-    textView = GTK_WIDGET(gtk_builder_get_object(builder, "angleRes"));
+    mass_label = GTK_LABEL(gtk_builder_get_object(builder, "mass"));
+    velocity_label = GTK_LABEL(gtk_builder_get_object(builder, "velocity"));
+    text_view = GTK_WIDGET(gtk_builder_get_object(builder, "angleRes"));
     draw_area = GTK_WIDGET(gtk_builder_get_object(builder, "draw"));
     combobox = GTK_WIDGET(gtk_builder_get_object(builder, "combobox"));
     button = GTK_WIDGET(gtk_builder_get_object(builder, "calcButton"));
     // Получение хэндлов из glade с названиями по типу t0, t1..,t4
     for (int i = 0; i<5; i++)
     {
-        timeTextViews[i] = GTK_WIDGET(gtk_builder_get_object(builder, std::string(std::string("t") + std::to_string(i)).c_str()));
-        buffers[i] = gtk_text_view_get_buffer(GTK_TEXT_VIEW(timeTextViews[i]));
-        angleTextViews[i] = GTK_WIDGET(gtk_builder_get_object(builder, std::string(std::string("a") + std::to_string(i)).c_str()));
-        angleTextBuffers[i] = gtk_text_view_get_buffer(GTK_TEXT_VIEW(angleTextViews[i]));
-        chargeTextViews[i] = GTK_WIDGET(gtk_builder_get_object(builder, std::string(std::string("c") + std::to_string(i)).c_str()));
-        chargeTextBuffers[i] = gtk_text_view_get_buffer(GTK_TEXT_VIEW(chargeTextViews[i]));
+        time_text_views[i] = GTK_WIDGET(gtk_builder_get_object(builder, std::string(std::string("t") + std::to_string(i)).c_str()));
+        time_text_buffers[i] = gtk_text_view_get_buffer(GTK_TEXT_VIEW(time_text_views[i]));
+        angle_text_views[i] = GTK_WIDGET(gtk_builder_get_object(builder, std::string(std::string("a") + std::to_string(i)).c_str()));
+        angle_text_buffers[i] = gtk_text_view_get_buffer(GTK_TEXT_VIEW(angle_text_views[i]));
+        charge_text_views[i] = GTK_WIDGET(gtk_builder_get_object(builder, std::string(std::string("c") + std::to_string(i)).c_str()));
+        charge_text_buffers[i] = gtk_text_view_get_buffer(GTK_TEXT_VIEW(charge_text_views[i]));
     }
 }
 
